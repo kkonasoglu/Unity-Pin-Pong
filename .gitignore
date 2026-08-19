@@ -1,0 +1,17 @@
+[Ll]ibrary/
+[Tt]emp/
+[Oo]bj/
+[Bb]uild/
+[Bb]uilds/
+[Ll]ogs/
+[Uu]ser[Ss]ettings/
+MemoryCaptures/
+
+# Visual Studio / VS Code geçici dosyaları
+.vs/
+.vscode/
+*.csproj
+*.unityproj
+*.sln
+*.user
+*.userprefs
