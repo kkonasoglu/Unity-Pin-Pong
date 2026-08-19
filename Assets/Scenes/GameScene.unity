@@ -866,6 +866,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::MoveScript
   upKey: 273
   downKey: 274
+  IsAI: 0
+  tiltLeftKey: 276
+  tiltRightKey: 275
+  flipKey: 303
+  maxTiltAngle: 25
+  tiltSpeed: 10
   speed: 12
   yBound: 4
 --- !u!61 &785848322
@@ -1116,6 +1122,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::MoveScript
   upKey: 119
   downKey: 115
+  IsAI: 0
+  tiltLeftKey: 97
+  tiltRightKey: 100
+  flipKey: 101
+  maxTiltAngle: 25
+  tiltSpeed: 10
   speed: 12
   yBound: 4
 --- !u!212 &954133962
