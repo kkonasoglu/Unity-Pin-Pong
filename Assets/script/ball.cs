@@ -113,11 +113,17 @@ public class ball : MonoBehaviour
         {
             currentSpeed = Mathf.Min(currentSpeed * SpeedIncrease, maxSpeed);
             rb.linearVelocity = rb.linearVelocity.normalized * currentSpeed;
+            SoundManager.Instance.PlayPaddleHit();
             EvaluateTargetColor();
 
         }
+        else if (collision.gameObject.CompareTag("wall"))
+        {
+            SoundManager.Instance.PlayWallBounce();
+        }
         else if (collision.gameObject.CompareTag("SpeedRing"))
         {
+            SoundManager.Instance.PlaySpeedBoost();
             if(ringCooldownTime <= 0)
             {
                 currentSpeed = Mathf.Min(currentSpeed * RingSpeedIncrease,maxSpeed);
@@ -130,6 +136,8 @@ public class ball : MonoBehaviour
         {
             rb.linearVelocity = rb.linearVelocity.normalized *currentSpeed;
         }
+
+        
     }
 
     void EvaluateTargetColor()
