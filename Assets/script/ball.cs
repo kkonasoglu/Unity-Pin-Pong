@@ -1,21 +1,21 @@
-
-using System.Reflection.Emit;
-using Unity.VisualScripting;
 using UnityEngine;
 public class ball : MonoBehaviour
 {
     [Header("Speed Setting")]
     public float initialSpeed = 10f;
-    public float SpeedIncrease = 1.1f;
+    public float SpeedIncrease = 1.08f;
     public float RingSpeedIncrease = 1.2f;
     public float maxSpeed = 25f;
+    public float boostSpeed = 22f;
+    public float decayRate = 3.5f;
+
 
 
     [Header("Color Transition Settings")]
     public float colorChangeSpeed = 5f;
 
-
     private float currentSpeed;
+    private float currentBaseSpeed;
     private TrailRenderer trail;
     private SpriteRenderer spriteRenderer;
     private Rigidbody2D rb;
@@ -31,11 +31,12 @@ public class ball : MonoBehaviour
         trail = GetComponent<TrailRenderer>();
         spriteRenderer = GetComponent<SpriteRenderer>();
 
-
+        // KRİTİK DÜZELTME: İki hız da initialSpeed ile başlar
+        currentBaseSpeed = initialSpeed;
         currentSpeed = initialSpeed;
+
         currentColor = Color.white;
         targetColor = Color.white;
-
 
         ApplyColorInstantly(Color.white);
 
@@ -55,7 +56,15 @@ public class ball : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if(rb.linearVelocity.sqrMagnitude > 0.1f)
+        // Yalnızca yay/halka patlaması varsa o anki taban hıza sönümle
+        if (currentSpeed > currentBaseSpeed)
+        {
+            currentSpeed = Mathf.MoveTowards(currentSpeed, currentBaseSpeed, decayRate * Time.fixedDeltaTime);
+            EvaluateTargetColor();
+        }
+
+        // Topun asla durmaması için hızı sürekli uygula
+        if (rb.linearVelocity.sqrMagnitude > 0.001f)
         {
             rb.linearVelocity = rb.linearVelocity.normalized * currentSpeed;
         }
@@ -86,6 +95,7 @@ public class ball : MonoBehaviour
         transform.position = Vector2.zero;
         rb.linearVelocity = Vector2.zero;
         currentSpeed = initialSpeed;
+        currentBaseSpeed = initialSpeed;
 
         targetColor = Color.white;
         ApplyColorInstantly(Color.white);
@@ -111,9 +121,13 @@ public class ball : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            currentSpeed = Mathf.Min(currentSpeed * SpeedIncrease, maxSpeed);
+            currentBaseSpeed = Mathf.Min(currentBaseSpeed * SpeedIncrease,maxSpeed);
+
+            currentSpeed = Mathf.Max(currentSpeed, currentBaseSpeed);
+
             rb.linearVelocity = rb.linearVelocity.normalized * currentSpeed;
-            SoundManager.Instance.PlayPaddleHit();
+
+            if (SoundManager.Instance != null) SoundManager.Instance.PlayPaddleHit();
             EvaluateTargetColor();
 
         }
@@ -126,8 +140,8 @@ public class ball : MonoBehaviour
             SoundManager.Instance.PlaySpeedBoost();
             if(ringCooldownTime <= 0)
             {
-                currentSpeed = Mathf.Min(currentSpeed * RingSpeedIncrease,maxSpeed);
-                ringCooldownTime = 0.4f;
+                currentSpeed = Mathf.Min(boostSpeed, maxSpeed);
+                ringCooldownTime = 0.5f;
             }
             rb.linearVelocity = rb.linearVelocity.normalized * currentSpeed;
             EvaluateTargetColor();

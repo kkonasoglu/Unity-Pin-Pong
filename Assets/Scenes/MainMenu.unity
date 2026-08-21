@@ -897,7 +897,7 @@ MonoBehaviour:
   bgmSource: {fileID: 1446390599}
   sfxSource: {fileID: 1446390598}
   paddleHitClip: {fileID: 8300000, guid: 1d3e302b122f12c4bb1842cddf4d5297, type: 3}
-  wallBounceClip: {fileID: 8300000, guid: d18a23caba11c7d428cbe1c40e4f1ba0, type: 3}
+  wallBounceClip: {fileID: 8300000, guid: 08e64511010660b4db249f3d73ce8c04, type: 3}
   speedBostClip: {fileID: 8300000, guid: fdf0c012f61331442bb7f11d28b98e38, type: 3}
   scoreClip: {fileID: 8300000, guid: 77b9b5745bac38e4f98fcbb4c43f4d3a, type: 3}
   winClip: {fileID: 8300000, guid: a58563aeb618b904fb408ae2de507777, type: 3}

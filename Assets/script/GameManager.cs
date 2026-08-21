@@ -180,6 +180,7 @@ public class GameManager : MonoBehaviour
 
     void RestartGame()
     {
+        SoundManager.Instance.PlayBGM();
         Time.timeScale = 1f;
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
